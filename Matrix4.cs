@@ -237,60 +237,35 @@ namespace SebiSoft.SoftwareRenderer
 			return result;
 		}
 
-		public static Matrix4 CreatePerspectiveMatrix (double width, double height, double nearPlane, double farPlane)
-		{
-			Matrix4 result = new Matrix4 ();
-			/*if (nearPlane <= 0f)
-			{
-				throw new ArgumentException("nearPlaneDistance <= 0");
-			}
-			if (farPlane <= 0f)
-			{
-				throw new ArgumentException("farPlaneDistance <= 0");
-			}
-			if (nearPlane >= farPlane)
-			{
-				throw new ArgumentException("nearPlaneDistance >= farPlaneDistance");
-			}*/
-			result.M11 = (2f * nearPlane) / width;
-			result.M12 = result.M13 = result.M14 = 0f;
-			result.M22 = (2f * nearPlane) / height;
-			result.M21 = result.M23 = result.M24 = 0f;
-			result.M33 = farPlane / (nearPlane - farPlane);
-			result.M31 = result.M32 = 0f;
-			result.M34 = -1f;
-			result.M41 = result.M42 = result.M44 = 0f;
-			result.M43 = (nearPlane * farPlane) / (nearPlane - farPlane);
-			return result;
-		}
 
-		public static Matrix4 CreatePerspectiveMatrixFOV (double FOV, double aspect, double nearPlane, double farPlane)
+
+		public static Matrix4 CreatePerspectiveMatrixFOV (double FOV, double aspect, double nearPlaneDistance, double farPlaneDistance)
 		{
 			Matrix4 result = new Matrix4 ();
 			/*if ((fieldOfView <= 0f) || (fieldOfView >= 3.141593f))
 			{
 				throw new ArgumentException("fieldOfView <= 0 O >= PI");
 			}
-			if (nearPlaneDistance <= 0f)
+			if (nearPlaneDistanceDistance <= 0f)
 			{
-				throw new ArgumentException("nearPlaneDistance <= 0");
+				throw new ArgumentException("nearPlaneDistanceDistance <= 0");
 			}
-			if (farPlaneDistance <= 0f)
+			if (farPlaneDistanceDistance <= 0f)
 			{
-				throw new ArgumentException("farPlaneDistance <= 0");
+				throw new ArgumentException("farPlaneDistanceDistance <= 0");
 			}
-			if (nearPlaneDistance >= farPlaneDistance)
+			if (nearPlaneDistanceDistance >= farPlaneDistanceDistance)
 			{
-				throw new ArgumentException("nearPlaneDistance >= farPlaneDistance");
+				throw new ArgumentException("nearPlaneDistanceDistance >= farPlaneDistanceDistance");
 			}*/
 			//https://de.wikipedia.org/wiki/Grafikpipeline
 			double h = 1.0f / ((double)Math.Tan ((double)(FOV * 0.5f)));
 			double w = h / aspect;
-			result.M11 = 2.0f / w;
-			result.M22 = 2.0f / h;
-			result.M33 = 1.0f / (nearPlane - farPlane);
+			result.M11 = w;
+			result.M22 = h;
+			result.M33 = farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
 			result.M43 = -1.0f;
-			result.M34 = nearPlane / (nearPlane - farPlane);
+			result.M34 = nearPlaneDistance * farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
 /*			double num = 1f / ((double) Math.Tan((double) (FOV * 0.5f)));
 			double num9 = num / aspect;
 			result.M11 = num9;
@@ -298,25 +273,25 @@ namespace SebiSoft.SoftwareRenderer
 			result.M22 = num;
 			result.M21 = result.M23 = result.M24 = 0f;
 			result.M31 = result.M32 = 0f;
-			result.M33 = farPlane / (nearPlane - farPlane);
+			result.M33 = farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
 			result.M34 = -1f;
 			result.M41 = result.M42 = result.M44 = 0f;
-			result.M43 = (nearPlane * farPlane) / (nearPlane - farPlane);*/
+			result.M43 = (nearPlaneDistance * farPlaneDistance) / (nearPlaneDistance - farPlaneDistance);*/
 			return result;
 		}
 
 
-		public static Matrix4 CreateOrthogonalMatrix (double width, double height, double NearPlane, double FarPlane)
+		public static Matrix4 CreateOrthogonalMatrix (double width, double height, double nearPlaneDistance, double farPlaneDistance)
 		{
 			Matrix4 result = new Matrix4 ();
 			result.M11 = 2f / width;
 			result.M12 = result.M13 = result.M14 = 0f;
 			result.M22 = 2f / height;
 			result.M21 = result.M23 = result.M24 = 0f;
-			result.M33 = 1f / (NearPlane - FarPlane);
+			result.M33 = 1f / (nearPlaneDistance - farPlaneDistance);
 			result.M31 = result.M32 = result.M34 = 0f;
 			result.M41 = result.M42 = 0f;
-			result.M43 = NearPlane / (NearPlane - FarPlane);
+			result.M43 = nearPlaneDistance / (nearPlaneDistance - farPlaneDistance);
 			result.M44 = 1f;
 			return result;
 		}

@@ -6,7 +6,6 @@ using SebiSoft.SoftwareRenderer;
 namespace SebiSoft
 {
 	public class TestApplication : Form
-
 	{
 		RenderBuffer rb;
 		PictureBox pbx;
@@ -56,7 +55,7 @@ namespace SebiSoft
 			Controls.Add (pbx);
 			rb = new RenderBuffer (bmp);
 			rb.Clear ();
-			rb.Unlock();
+			rb.Unlock ();
 			pbx.Invalidate ();
 
 			tmr1 = new Timer ();
@@ -67,58 +66,58 @@ namespace SebiSoft
 
 		}
 
-		public static void Main()
+		public static void Main ()
 		{
 			Application.Run (new TestApplication ());
 		}
 
-		private void tm1_Tick(object sender, System.EventArgs e)
+		private void tm1_Tick (object sender, System.EventArgs e)
 		{
 			//while (KEY_ESC_PRESSED==false) {
-				if (fpsCount == 0) {
-					fpsBegin = DateTime.Now;
-				}
-				fpsCount++;
+			if (fpsCount == 0) {
+				fpsBegin = DateTime.Now;
+			}
+			fpsCount++;
 
 
-				rx += 0.03; 
-				if (rx > Math.PI * 2)
-					rx -= (Math.PI * 2);
-				ry += 0.03;
-				if (ry > Math.PI * 2)
-					ry -= (Math.PI * 2);
-				rz += 0.03;
-				if (rz > Math.PI * 2)
+			rx += 0.03; 
+			if (rx > Math.PI * 2)
+				rx -= (Math.PI * 2);
+			ry += 0.03;
+			if (ry > Math.PI * 2)
+				ry -= (Math.PI * 2);
+			rz += 0.03;
+			if (rz > Math.PI * 2)
 				rz -= (Math.PI * 2);
 
-				Matrix4 tm = Matrix4.CreateRotationMatrix (rx, ry, rz) * 
-				             Matrix4.CreateTranslationMatrix (tx, ty, tz) *
-							 Matrix4.CreatePerspectiveMatrixFOV (Math.PI/1.5, 1, 20, 500);
-				Vector3 tv1 = tm * v1;
-				Vector3 tv2 = tm * v2;
-				Vector3 tv3 = tm * v3;
-				Vector3 tv4 = tm * v4;
+			Matrix4 tm = Matrix4.CreateRotationMatrix (rx, ry, rz) *
+			             Matrix4.CreateTranslationMatrix (tx, ty, tz) *
+			             Matrix4.CreatePerspectiveMatrixFOV (Math.PI / 7, 1, 20, 500);
+			Vector3 tv1 = tm * v1;
+			Vector3 tv2 = tm * v2;
+			Vector3 tv3 = tm * v3;
+			Vector3 tv4 = tm * v4;
 
-				rb.Clear ();
-				rb.DrawLine ((int)tv1.X, (int)tv1.Y, (int)tv2.X, (int)tv2.Y, Color.Red);
-				rb.DrawLine ((int)tv2.X, (int)tv2.Y, (int)tv3.X, (int)tv3.Y, Color.Green);
-				rb.DrawLine ((int)tv3.X, (int)tv3.Y, (int)tv1.X, (int)tv1.Y, Color.Blue);
-				rb.DrawLine ((int)tv1.X, (int)tv1.Y, (int)tv4.X, (int)tv4.Y, Color.White);
-				rb.DrawLine ((int)tv2.X, (int)tv2.Y, (int)tv4.X, (int)tv4.Y, Color.Coral);
-				rb.DrawLine ((int)tv3.X, (int)tv3.Y, (int)tv4.X, (int)tv4.Y, Color.Chartreuse);
-				rb.Unlock ();
-				pbx.Refresh ();
+			rb.Clear ();
+			rb.DrawLine ((int)tv1.X, (int)tv1.Y, (int)tv2.X, (int)tv2.Y, Color.Red);
+			rb.DrawLine ((int)tv2.X, (int)tv2.Y, (int)tv3.X, (int)tv3.Y, Color.Green);
+			rb.DrawLine ((int)tv3.X, (int)tv3.Y, (int)tv1.X, (int)tv1.Y, Color.Blue);
+			rb.DrawLine ((int)tv1.X, (int)tv1.Y, (int)tv4.X, (int)tv4.Y, Color.White);
+			rb.DrawLine ((int)tv2.X, (int)tv2.Y, (int)tv4.X, (int)tv4.Y, Color.Coral);
+			rb.DrawLine ((int)tv3.X, (int)tv3.Y, (int)tv4.X, (int)tv4.Y, Color.Chartreuse);
+			rb.Unlock ();
+			pbx.Refresh ();
 
-				if (fpsCount==100) {
-					fpsCount = 0;
-					fpsEnd = DateTime.Now;
-					double fps = 100.0f/(fpsEnd - fpsBegin).TotalSeconds;
-					this.Text = "FPS: " + fps;
-				}
+			if (fpsCount == 100) {
+				fpsCount = 0;
+				fpsEnd = DateTime.Now;
+				double fps = 100.0f / (fpsEnd - fpsBegin).TotalSeconds;
+				this.Text = "FPS: " + fps;
+			}
 			//}
 		}
 
-		private void MainForm_KeyPress(object sender, KeyPressEventArgs e)
+		private void MainForm_KeyPress (object sender, KeyPressEventArgs e)
 		{
 
 			KEY_ESC_PRESSED = (e.KeyChar == (char)Keys.Escape);
